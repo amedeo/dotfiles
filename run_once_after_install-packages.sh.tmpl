@@ -21,7 +21,7 @@ if ! command -v brew >/dev/null 2>&1; then
   echo "Homebrew not found. Please install it first: https://brew.sh"
   exit 1
 fi
-brew tap nikitabobko/tap 2>/dev/null
+brew tap nikitabobko/tap
 {{ end -}}
 {{ $cmd }} {{ $all }}
 {{- if $allCasks }}
