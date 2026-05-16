@@ -1,0 +1,29 @@
+#!/bin/sh
+{{- /* Shared packages (same name on both platforms) */ -}}
+{{- $common := list "bash" "bat" "curl" "eza" "fastfetch" "fzf" "gdu" "gh" "git" "glow" "htop" "lazydocker" "lazygit" "mise" "ncdu" "neovim" "nmap" "ripgrep" "starship" "tig" "tmux" "yazi" "zoxide" "dotnet" "dotnet-sdk" "lua" "luajit" "luarocks" "rustup" "caddy" "colima" "docker" "docker-compose" "libpq" "overmind" "redis" "gnu-sed" "nb" "pandoc" "pngpaste" "usage" "opencode" "kitty" "zen-browser" "telegram-desktop" -}}
+{{- $cmd := "" -}}
+{{- $cask := "" -}}
+{{- $osPkgs := list -}}
+{{- $osCasks := list -}}
+{{- if eq .chezmoi.os "darwin" -}}
+{{-   $cmd = "brew install" -}}
+{{-   $cask = "brew install --cask" -}}
+{{-   $osPkgs = list "docker-completion" -}}
+{{-   $osCasks = list "aerospace" "font-jetbrains-mono-nerd-font" "localsend" "shortcat" "stremio" -}}
+{{- else if eq .chezmoi.os "linux" -}}
+{{-   $cmd = "yay -S --noconfirm --needed" -}}
+{{-   $osPkgs = list "ttf-jetbrains-mono-nerd-font" -}}
+{{- end -}}
+{{- $all := join " " (concat $common $osPkgs) -}}
+{{- $allCasks := join " " $osCasks }}
+{{ if eq .chezmoi.os "darwin" -}}
+if ! command -v brew >/dev/null 2>&1; then
+  echo "Homebrew not found. Please install it first: https://brew.sh"
+  exit 1
+fi
+brew tap nikitabobko/tap 2>/dev/null
+{{ end -}}
+{{ $cmd }} {{ $all }}
+{{- if $allCasks }}
+{{ $cask }} {{ $allCasks }}
+{{- end }}

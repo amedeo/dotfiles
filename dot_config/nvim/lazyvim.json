@@ -1,0 +1,12 @@
+{
+  "extras": [
+    "lazyvim.plugins.extras.dap.core",
+    "lazyvim.plugins.extras.lang.dotnet",
+    "lazyvim.plugins.extras.lang.rust"
+  ],
+  "install_version": 7,
+  "news": {
+    "NEWS.md": "11866"
+  },
+  "version": 8
+}

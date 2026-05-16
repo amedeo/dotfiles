@@ -1,0 +1,157 @@
+-- This allows me to create my custom snippets
+-- All you need to do, if using the lazyvim.org distro, is to enable the
+-- coding.luasnip LazyExtra and then add this file
+
+return {
+  "L3MON4D3/LuaSnip",
+  opts = function(_, opts)
+    local ls = require("luasnip")
+
+    -- Preserve existing opts from LazyVim
+    opts = vim.tbl_deep_extend("force", opts, {
+      history = true,
+      delete_check_events = "TextChanged",
+    })
+
+    local s = ls.snippet
+    local t = ls.text_node
+    local i = ls.insert_node
+    local f = ls.function_node
+    local fmt = require("luasnip.extras.fmt").fmt
+
+    local function clipboard()
+      return vim.fn.getreg("+")
+    end
+
+    -- Custom snippets
+    -- the "all" after ls.add_snippets("all" is the filetype, you can know a
+    -- file filetype with :set ft
+    -- Custom snippets
+
+    -- #####################################################################
+    --                            Markdown
+    -- #####################################################################
+
+    -- Helper function to create code block snippets
+    local function create_code_block_snippet(lang)
+      return s(lang, {
+        t({ "```" .. lang, "" }),
+        i(1),
+        t({ "", "```" }),
+      })
+    end
+
+    -- Define languages for code blocks
+    local languages = {
+      "txt",
+      "lua",
+      "sql",
+      "go",
+      "regex",
+      "bash",
+      "markdown",
+      "markdown_inline",
+      "yaml",
+      "json",
+      "jsonc",
+      "cpp",
+      "csv",
+      "java",
+      "javascript",
+      "python",
+      "dockerfile",
+      "html",
+      "css",
+      "templ",
+      "php",
+    }
+
+    -- Generate snippets for all languages
+    local snippets = {}
+
+    for _, lang in ipairs(languages) do
+      table.insert(snippets, create_code_block_snippet(lang))
+    end
+
+    table.insert(
+      snippets,
+      s({
+        trig = "link",
+        name = "Add this -> []()",
+      }, {
+        t("["),
+        i(1),
+        t("]("),
+        i(2),
+        t(")"),
+      })
+    )
+
+    table.insert(
+      snippets,
+      s(
+        {
+          trig = "nb",
+          name = "Add NB note template",
+        },
+        fmt(
+          [[
+---
+  tags: {}
+---
+{}
+]],
+          {
+            i(1, ""),
+            i(0),
+          }
+        )
+      )
+    )
+
+    table.insert(
+      snippets,
+      s({
+        trig = "linkt",
+        name = 'Add this -> [](){:target="_blank"}',
+      }, {
+        t("["),
+        i(1),
+        t("]("),
+        i(2),
+        t('){:target="_blank"}'),
+      })
+    )
+
+    table.insert(
+      snippets,
+      s({
+        trig = "todo",
+        name = "Add TODO: item",
+      }, {
+        t("<!-- TODO: "),
+        i(1),
+        t(" -->"),
+      })
+    )
+
+    -- Paste clipboard contents in link section, move cursor to ()
+    table.insert(
+      snippets,
+      s({
+        trig = "linkclip",
+        name = "Paste clipboard as .md link",
+      }, {
+        t("["),
+        i(1),
+        t("]("),
+        f(clipboard, {}),
+        t(")"),
+      })
+    )
+
+    ls.add_snippets("markdown", snippets)
+
+    return opts
+  end,
+}
