@@ -9,7 +9,7 @@
 {{-   $cmd = "brew install" -}}
 {{-   $cask = "brew install --cask" -}}
 {{-   $osPkgs = list "docker-completion" -}}
-{{-   $osCasks = list "aerospace" "font-jetbrains-mono-nerd-font" "localsend" "shortcat" "stremio" -}}
+{{-   $osCasks = list "font-jetbrains-mono-nerd-font" "localsend" "shortcat" "stremio" -}}
 {{- else if eq .chezmoi.os "linux" -}}
 {{-   $cmd = "yay -S --noconfirm --needed" -}}
 {{-   $osPkgs = list "ttf-jetbrains-mono-nerd-font" -}}
@@ -21,7 +21,6 @@ if ! command -v brew >/dev/null 2>&1; then
   echo "Homebrew not found. Please install it first: https://brew.sh"
   exit 1
 fi
-brew tap nikitabobko/tap
 {{ end -}}
 {{ $cmd }} {{ $all }}
 {{- if $allCasks }}
