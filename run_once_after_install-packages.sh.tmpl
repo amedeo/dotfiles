@@ -1,6 +1,6 @@
 #!/bin/sh
 {{- /* Shared packages (same name on both platforms) */ -}}
-{{- $common := list "bash" "bat" "curl" "eza" "fastfetch" "fzf" "gdu" "gh" "git" "glow" "htop" "lazydocker" "lazygit" "mise" "ncdu" "neovim" "nmap" "ripgrep" "starship" "tig" "tmux" "yazi" "zoxide" "dotnet" "dotnet-sdk" "lua" "luajit" "luarocks" "rustup" "caddy" "colima" "docker" "docker-compose" "libpq" "overmind" "redis" "gnu-sed" "nb" "pandoc" "pngpaste" "usage" "opencode" "kitty" "zen-browser" "telegram-desktop" -}}
+{{- $common := list "bash" "bat" "curl" "eza" "fastfetch" "fzf" "gdu" "gh" "git" "glow" "htop" "lazydocker" "lazygit" "mise" "ncdu" "neovim" "nmap" "ripgrep" "starship" "tig" "tmux" "yazi" "zoxide" "dotnet" "dotnet-sdk" "lua" "luajit" "luarocks" "rustup" "caddy" "colima" "docker" "docker-compose" "libpq" "overmind" "redis" "gnu-sed" "nb" "pandoc" "pngpaste" "usage" "opencode" -}}
 {{- $cmd := "" -}}
 {{- $cask := "" -}}
 {{- $osPkgs := list -}}
@@ -9,10 +9,10 @@
 {{-   $cmd = "brew install" -}}
 {{-   $cask = "brew install --cask" -}}
 {{-   $osPkgs = list "docker-completion" -}}
-{{-   $osCasks = list "aerospace" "font-jetbrains-mono-nerd-font" "localsend" "shortcat" "stremio" -}}
+{{-   $osCasks = list "aerospace" "font-jetbrains-mono-nerd-font" "kitty" "localsend" "shortcat" "stremio" "telegram-desktop" "zen-browser" -}}
 {{- else if eq .chezmoi.os "linux" -}}
 {{-   $cmd = "yay -S --noconfirm --needed" -}}
-{{-   $osPkgs = list "ttf-jetbrains-mono-nerd-font" -}}
+{{-   $osPkgs = list "kitty" "telegram-desktop" "ttf-jetbrains-mono-nerd-font" -}}
 {{- end -}}
 {{- $all := join " " (concat $common $osPkgs) -}}
 {{- $allCasks := join " " $osCasks }}
